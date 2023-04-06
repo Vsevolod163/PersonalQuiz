@@ -25,8 +25,12 @@ final class QuestionViewController: UIViewController {
     @IBOutlet var rangedSlider: UISlider!
     
     // MARK: - Private properties
-    private let questions = Question.getQuestions()
     private var questionIndex = 0
+    private let questions = Question.getQuestions()
+    private var answersChosen: [Answer] = []
+    private var currentAnswers: [Answer] {
+        questions[questionIndex].answers
+    }
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -36,6 +40,7 @@ final class QuestionViewController: UIViewController {
     
     // MARK: - IB Actions
     @IBAction func singleButtonAnswerPressed(_ sender: UIButton) {
+        
     }
     
     @IBAction func multipleButtonAnswerPressed() {
@@ -53,6 +58,43 @@ private extension QuestionViewController {
             stackView?.isHidden = true
         }
         
+        // Get current question
+        let currentQuestion = questions[questionIndex]
         
+        // Set current question for question label
+        questionLabel.text = currentQuestion.title
+        
+        // Calculate progress
+        let totalProgress = Float(questionIndex) / Float(questions.count)
+        
+        // Set progress for progress view
+        questionProgressView.setProgress(totalProgress, animated: true)
+        
+        // Set navigation title
+        title = "Вопрос № \(questionIndex + 1) из \(questions.count)"
+        
+        // Show stacks corresponding to qquestion type
+        showCurrentAnswers(for: currentQuestion.type)
+    }
+    
+    /// Show stack view with single answers
+    ///
+    /// Display a stack view of single answers category
+    ///
+    /// - Parameter type: Specifies the category of responses
+    func showCurrentAnswers(for type: ResponseType) {
+        switch type {
+        case .single: showSingleStackView(with: currentAnswers)
+        case .multiple: break
+        case .ranged: break
+        }
+    }
+    
+    func showSingleStackView(with answers: [Answer]) {
+        singleStackView.isHidden.toggle()
+        
+        for (button, answer) in zip(singleButtons, answers) {
+            button.setTitle(answer.title, for: .normal)
+        }
     }
 }
