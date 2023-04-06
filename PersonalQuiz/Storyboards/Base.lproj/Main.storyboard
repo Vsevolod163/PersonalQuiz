@@ -325,8 +325,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Результат" id="cMR-7u-RkN">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="oDJ-gi-Wu7"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="oDJ-gi-Wu7">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="Tpu-4V-JSa" id="o7H-Pv-ww7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="resultNavigationItem" destination="cMR-7u-RkN" id="Dl4-73-vrW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQp-Bg-ywG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -36,7 +36,9 @@ final class QuestionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
-        
+        let answerCount = Float(currentAnswers.count - 1)
+        rangedSlider.maximumValue = answerCount
+        rangedSlider.value = answerCount / 2
     }
     
     // MARK: - IB Actions
@@ -58,6 +60,13 @@ final class QuestionViewController: UIViewController {
     }
     
     @IBAction func rangedButtonAnswerPressed() {
+        let index = lrintf(rangedSlider.value)
+        answersChosen.append(currentAnswers[index])
+        nextQuestion()
+    }    
+    
+    deinit {
+        print("\(type(of: self)) has been deallocated")
     }
 }
 
