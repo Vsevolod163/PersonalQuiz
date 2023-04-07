@@ -13,7 +13,6 @@ final class ResultViewController: UIViewController {
     @IBOutlet var resultInfoLabel: UILabel!
     
     var answersChosen: [Answer]!
-    var questions: [Question]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
