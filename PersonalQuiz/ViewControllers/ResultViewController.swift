@@ -33,35 +33,22 @@ final class ResultViewController: UIViewController {
     }
     
     private func getResultAnimalIn(answers: [Answer]) -> Animal {
-        var animalsCount: [Int] = Array(repeating: 0, count: 4)
-
+        var animalsCount: [Animal: Int] = [:]
+        var resultAnimal: Animal!
+        
         for answer in answers {
-            switch answer.animal {
-            case .dog:
-                animalsCount[0] += 1
-            case .cat:
-                animalsCount[1] += 1
-            case .rabbit:
-                animalsCount[2] += 1
-            case .turtle:
-                animalsCount[3] += 1
+            if let count = animalsCount[answer.animal] {
+                animalsCount[answer.animal] = count + 1
+            } else {
+                animalsCount[answer.animal] = 1
             }
         }
         
-        let maximumElemet = animalsCount.max() ?? 0
-        let indexOfMaxElement = animalsCount.firstIndex(of: maximumElemet)
-
-        switch indexOfMaxElement {
-        case 0:
-            return Animal.dog
-        case 1:
-            return Animal.cat
-        case 2:
-            return Animal.rabbit
-        case 3:
-            return Animal.turtle
-        default:
-            return Animal.dog
+        let maximumValue = animalsCount.values.max()
+        if let animal = animalsCount.first(where: { $0.value == maximumValue })?.key {
+            resultAnimal = animal
         }
+        
+        return resultAnimal
     }
 }
