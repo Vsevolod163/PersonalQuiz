@@ -17,11 +17,8 @@ final class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-    
-        let resultAnimal = getResultAnimalIn(answers: answersChosen)
         
-        resultAnimalLabel.text = "Вы - \(resultAnimal.rawValue)"
-        resultInfoLabel.text = resultAnimal.definition
+        getResultAnimal()
     }
     
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
@@ -31,24 +28,29 @@ final class ResultViewController: UIViewController {
     deinit {
         print("\(type(of: self)) has been deallocated")
     }
-    
-    private func getResultAnimalIn(answers: [Answer]) -> Animal {
-        var animalsCount: [Animal: Int] = [:]
-        var resultAnimal: Animal!
+}
+
+extension ResultViewController {
+    private func getResultAnimal() {
+        var frequencyOfAnimals: [Animal: Int] = [:]
+        let animals = answersChosen.map { $0.animal }
         
-        for answer in answers {
-            if let count = animalsCount[answer.animal] {
-                animalsCount[answer.animal] = count + 1
+        for animal in animals {
+            if let animalTypeCount = frequencyOfAnimals[animal] {
+                frequencyOfAnimals.updateValue(animalTypeCount + 1, forKey: animal)
             } else {
-                animalsCount[answer.animal] = 1
+                frequencyOfAnimals.updateValue(1, forKey: animal)
             }
         }
         
-        let maximumValue = animalsCount.values.max()
-        if let animal = animalsCount.first(where: { $0.value == maximumValue })?.key {
-            resultAnimal = animal
-        }
+        let sortedFrequentOfAnimals = frequencyOfAnimals.sorted { $0.value > $1.value }
+        guard let mostFrequentAnimal = sortedFrequentOfAnimals.first?.key else { return }
         
-        return resultAnimal
+        updateUI(with: mostFrequentAnimal)
+    }
+    
+    private func updateUI(with animal: Animal) {
+        resultAnimalLabel.text = "Вы - \(animal.rawValue)"
+        resultInfoLabel.text = animal.definition
     }
 }
