@@ -49,19 +49,6 @@ extension ResultViewController {
         let sortedFrequentOfAnimals = frequencyOfAnimals.sorted { $0.value > $1.value }
         guard let mostFrequentAnimal = sortedFrequentOfAnimals.first?.key else { return }
         
-        // 2 Вариат
-//        for animal in animals {
-//            frequencyOfAnimals[animal] = (frequencyOfAnimals[animal] ?? 0) + 1
-//        }
-        // 3 Вариант
-//        for animal in animals {
-//            frequencyOfAnimals[animal, default: 0] += 1
-//        }
-        // 4 Вариант
-//        let mostFrequencyAnimal = Dictionary(grouping: answersChosen) { $0.animal }
-//            .sorted { $0.value.count > $1.value.count }
-//            .first?.key
-        
         updateUI(with: mostFrequentAnimal)
     }
     
